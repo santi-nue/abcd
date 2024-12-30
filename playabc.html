@@ -3,31 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ABC Notation Player</title>
-    <!-- Link to ABCjs library (from a CDN) -->
-    <script src="https://cdn.jsdelivr.net/npm/abcjs@6.0.0/dist/abcjs-basic.min.js">
-
-        
-        </script>
+    <title>ABC Notation Player with Audio Controls</title>
+    <!-- Link to ABCjs library (for rendering and playing ABC notation) -->
+    <script src="https://cdn.jsdelivr.net/npm/abcjs@6.0.0/dist/abcjs-basic.min.js"></script>
+    <!-- Link to ABCjs Audio CSS for audio controls -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/abcjs@6.0.0/dist/abcjs-audio.css">
 </head>
 <body>
-    <h1>Play a Song in ABC Notation</h1>
+    <h1>Play a Song in ABC Notation with Audio Controls</h1>
 
     <!-- Textarea for pasting ABC notation -->
     <textarea id="abc-input" rows="10" cols="50" placeholder="Paste your ABC notation here..."></textarea><br>
 
     <!-- Button to render and play the ABC song -->
     <button onclick="playABC()">Play Song</button>
-
-    <!-- Container to display music notation -->
+<!-- Container to display music notation -->
     <div id="abc-notation"></div>
+
+    <!-- Container to display audio controls -->
+    <div id="audio-controls"></div>
 
     <script>
         // Function to render and play the ABC notation
         function playABC() {
             // Get the ABC notation from the textarea
             var abcNotation = document.getElementById("abc-input").value;
- // Check if the textarea is empty
+
+            // Check if the textarea is empty
             if (!abcNotation.trim()) {
                 alert("Please paste some ABC notation into the textbox.");
                 return;
@@ -36,9 +38,20 @@
             // Render the ABC notation as sheet music in the div
             abcjs.renderAbc("abc-notation", abcNotation);
 
-            // Play the song using ABCjs
-            var audio = new abcjs.sounds[0];
-            audio.play();
+            // Create a MIDI object for the ABC notation and render audio controls
+            var midi = abcjs.renderMidi("abc-notation", abcNotation, {
+                add_classes: true, // Add classes for styling
+                midiOptions: {
+                    soundFontUrl: "https://cdn.jsdelivr.net/npm/abcjs@6.0.0/dist/abcjs-midi-soundfont.js"
+                }
+            });
+
+            // Now we can render the audio controls in the 'audio-controls' div
+            var audioControls = midi[0].audioControls;
+            document.getElementById("audio-controls").innerHTML = audioControls;
+
+            // Play the song using the audio controls
+            midi[0].play();
         }
     </script>
 </body>
