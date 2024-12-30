@@ -2,6 +2,8 @@
 
 see also  https://github.com/paulrosen/abcjs
 
+https://paulrosen.github.io/abcjs/interactive/interactive-editor.html
+
 # ABCD - 🎵 The Markdown Notation for Music 🎵 
 
 A super simple textual language, called ABCD, to represent **music scores**. The aim is to be natural to use like **markdown** for writing documents. The positions of the musical elements in the text is close to their real positions in the score. It makes easy to add instruments, change keys, add voices, add lyrics. Its main feature is **rhythm inference**: you do not need to tediously specify the duration of each note; the system tries to guess the most natural rhythm from the specification.  The name ABCD is a hint to the abc notation. 
